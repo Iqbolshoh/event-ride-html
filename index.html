@@ -12,9 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Custom Configuration -->
     <script>
         tailwind.config = {
             theme: {
@@ -25,9 +24,8 @@
                     animation: {
                         'fade-in': 'fadeIn 0.5s ease-out',
                         'slide-up': 'slideUp 0.4s ease-out',
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                         'float': 'float 6s ease-in-out infinite',
-                        'glow': 'glow 2s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         fadeIn: {
@@ -41,10 +39,6 @@
                         float: {
                             '0%, 100%': { transform: 'translateY(0px)' },
                             '50%': { transform: 'translateY(-20px)' },
-                        },
-                        glow: {
-                            '0%, 100%': { boxShadow: '0 0 20px rgba(139, 92, 246, 0.3)' },
-                            '50%': { boxShadow: '0 0 40px rgba(139, 92, 246, 0.6)' },
                         },
                     }
                 }
@@ -133,7 +127,7 @@
             box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
         }
         
-        /* Button hover effects */
+        /* Button gradient */
         .btn-gradient {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             transition: all 0.3s ease;
@@ -149,7 +143,18 @@
             animation: float 6s ease-in-out infinite;
         }
         
-        /* Statistics card */
+        /* Navigation tabs */
+        .nav-tab {
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab.active-tab {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* Stat card effect */
         .stat-card {
             position: relative;
             overflow: hidden;
@@ -169,20 +174,40 @@
         .stat-card:hover::before {
             left: 100%;
         }
+        
+        /* Footer links hover */
+        .footer-link {
+            transition: all 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: #a78bfa;
+            transform: translateX(5px);
+        }
+        
+        /* Social icons */
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-3px);
+            color: #a78bfa;
+        }
     </style>
 </head>
-<body class="font-inter overflow-x-hidden">
+<body class="font-inter overflow-x-hidden flex flex-col min-h-screen">
 
-<div class="min-h-screen">
+<div class="flex-1">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
         
-        <!-- Header with 3 Pages Navigation -->
-        <header class="glass rounded-2xl mb-8 shadow-2xl">
+        <!-- ========== HEADER with Navigation ========== -->
+        <header class="glass rounded-2xl mb-8 shadow-2xl sticky top-4 z-50">
             <!-- Top bar with logo and stats -->
             <div class="px-6 py-4 border-b border-white/10">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                     <!-- Logo -->
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-3 cursor-pointer" onclick="app.switchTab('home')">
                         <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center floating">
                             <i class="fas fa-car-side text-white text-2xl"></i>
                         </div>
@@ -210,10 +235,10 @@
                 </div>
             </div>
             
-            <!-- Navigation Tabs (3 Sahifali Header) -->
-            <div class="px-6 py-3 flex gap-2 border-b border-white/10">
+            <!-- Navigation Tabs (Headerda) -->
+            <div class="px-6 py-3 flex flex-wrap gap-2 border-b border-white/10">
                 <button onclick="app.switchTab('home')" id="tabHomeBtn" 
-                        class="nav-tab active-tab px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg">
+                        class="nav-tab active-tab px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2">
                     <i class="fas fa-home"></i>
                     <span>Bosh sahifa</span>
                 </button>
@@ -222,10 +247,20 @@
                     <i class="fas fa-plus-circle"></i>
                     <span>Tadbir yaratish</span>
                 </button>
+                <button onclick="app.switchTab('howitworks')" id="tabHowBtn" 
+                        class="nav-tab px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2 text-white/70 hover:text-white hover:bg-white/10">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Qanday ishlaydi</span>
+                </button>
                 <button onclick="app.switchTab('about')" id="tabAboutBtn" 
                         class="nav-tab px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2 text-white/70 hover:text-white hover:bg-white/10">
                     <i class="fas fa-info-circle"></i>
                     <span>Loyiha haqida</span>
+                </button>
+                <button onclick="app.switchTab('contact')" id="tabContactBtn" 
+                        class="nav-tab px-5 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2 text-white/70 hover:text-white hover:bg-white/10">
+                    <i class="fas fa-envelope"></i>
+                    <span>Bog'lanish</span>
                 </button>
             </div>
         </header>
@@ -257,7 +292,7 @@
 
             <!-- Features Grid -->
             <div class="grid md:grid-cols-3 gap-6 mb-8">
-                <div class="glass-card rounded-xl p-6 text-center card-hover">
+                <div class="glass-card rounded-xl p-6 text-center">
                     <div class="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-hand-holding-usd text-2xl text-purple-400"></i>
                     </div>
@@ -265,7 +300,7 @@
                     <p class="text-white/50 text-sm">Birgalikda taksi chaqirib, narxni teng bo'lib, pulingizni tejang</p>
                 </div>
                 
-                <div class="glass-card rounded-xl p-6 text-center card-hover">
+                <div class="glass-card rounded-xl p-6 text-center">
                     <div class="w-14 h-14 bg-pink-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-users text-2xl text-pink-400"></i>
                     </div>
@@ -273,7 +308,7 @@
                     <p class="text-white/50 text-sm">Yangi do'stlar orttiring va birgalikda sayohat qiling</p>
                 </div>
                 
-                <div class="glass-card rounded-xl p-6 text-center card-hover">
+                <div class="glass-card rounded-xl p-6 text-center">
                     <div class="w-14 h-14 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
                         <i class="fas fa-shield-alt text-2xl text-green-400"></i>
                     </div>
@@ -282,30 +317,25 @@
                 </div>
             </div>
 
-            <!-- How It Works -->
+            <!-- Stats Section -->
             <div class="glass-card rounded-2xl p-8">
-                <h3 class="text-2xl font-bold text-white mb-6 text-center flex items-center justify-center gap-2">
-                    <i class="fas fa-question-circle text-purple-400"></i>
-                    Qanday ishlaydi?
-                </h3>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="text-center relative">
-                        <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold text-xl">1</div>
-                        <i class="fas fa-calendar-plus text-3xl text-purple-400 mb-2 block"></i>
-                        <p class="text-white font-semibold">Tadbir yarating</p>
-                        <p class="text-white/40 text-sm">Manzil, vaqt va qatnashchilar sonini belgilang</p>
-                    </div>
-                    <div class="text-center relative">
-                        <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold text-xl">2</div>
-                        <i class="fas fa-user-plus text-3xl text-purple-400 mb-2 block"></i>
-                        <p class="text-white font-semibold">Qatnashchilarni qo'shing</p>
-                        <p class="text-white/40 text-sm">Do'stlaringizni taklif qiling va hissalarini kiriting</p>
+                <h3 class="text-2xl font-bold text-white mb-6 text-center">Platforma statistikasi</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-purple-400">500+</div>
+                        <p class="text-white/50 text-sm">Muvaffaqiyatli tadbirlar</p>
                     </div>
                     <div class="text-center">
-                        <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold text-xl">3</div>
-                        <i class="fas fa-chart-line text-3xl text-purple-400 mb-2 block"></i>
-                        <p class="text-white font-semibold">Hisob-kitobni ko'ring</p>
-                        <p class="text-white/40 text-sm">Kim qancha to'lagan va qancha tejaganingizni bilib oling</p>
+                        <div class="text-3xl font-bold text-pink-400">2,500+</div>
+                        <p class="text-white/50 text-sm">Faol foydalanuvchilar</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-green-400">50%</div>
+                        <p class="text-white/50 text-sm">O'rtacha tejamkorlik</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-blue-400">4.9</div>
+                        <p class="text-white/50 text-sm">Foydalanuvchi reytingi</p>
                     </div>
                 </div>
             </div>
@@ -329,7 +359,7 @@
                                 <i class="fas fa-tag text-purple-400 mr-2"></i>Tadbir nomi
                             </label>
                             <input type="text" id="eventName" placeholder="Masalan: 'Navro'z konserti 2026'" 
-                                   class="custom-input w-full px-4 py-3 glass rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-purple-500 transition-all">
+                                   class="custom-input w-full px-4 py-3 glass rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-purple-500">
                         </div>
                         
                         <div>
@@ -403,7 +433,7 @@
             </div>
         </div>
 
-        <!-- ========== PAGE 3: JOIN EVENT (Hidden initially, shown after event creation) ========== -->
+        <!-- ========== PAGE 3: JOIN EVENT (Hidden) ========== -->
         <div id="joinPage" class="page">
             <div class="mb-6">
                 <h2 class="text-3xl font-bold text-white mb-2 flex items-center gap-3">
@@ -488,7 +518,6 @@
 
             <div id="finalEventSummary" class="glass-card rounded-2xl p-6 mb-6"></div>
 
-            <!-- Stats Grid -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div class="stat-card glass-card rounded-xl p-4">
                     <div class="flex items-center gap-3">
@@ -539,7 +568,6 @@
                 </div>
             </div>
 
-            <!-- Participants Table -->
             <div class="glass-card rounded-2xl p-6">
                 <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
                     <i class="fas fa-list-ul text-purple-400"></i>
@@ -550,10 +578,10 @@
                     <table class="w-full">
                         <thead class="border-b border-white/10">
                             <tr>
-                                <th class="text-left py-3 px-4 text-white/60 font-semibold text-sm"><i class="fas fa-user mr-2"></i>Ism</th>
-                                <th class="text-left py-3 px-4 text-white/60 font-semibold text-sm"><i class="fas fa-money-bill mr-2"></i>Hissa</th>
-                                <th class="text-left py-3 px-4 text-white/60 font-semibold text-sm"><i class="fas fa-credit-card mr-2"></i>To'lov usuli</th>
-                                <th class="text-left py-3 px-4 text-white/60 font-semibold text-sm"><i class="fas fa-check-circle mr-2"></i>Holat</th>
+                                <th class="text-left py-3 px-4 text-white/60 font-semibold text-sm">Ism</th>
+                                <th class="text-left py-3 px-4 text-white/60 font-semibold text-sm">Hissa</th>
+                                <th class="text-left py-3 px-4 text-white/60 font-semibold text-sm">To'lov usuli</th>
+                                <th class="text-left py-3 px-4 text-white/60 font-semibold text-sm">Holat</th>
                             </tr>
                         </thead>
                         <tbody id="participantsTableBody">
@@ -562,9 +590,7 @@
                     </table>
                 </div>
                 
-                <div id="savingsMessage" class="mt-6 p-4 rounded-xl text-center font-semibold">
-                    <!-- Savings message -->
-                </div>
+                <div id="savingsMessage" class="mt-6 p-4 rounded-xl text-center font-semibold"></div>
             </div>
             
             <div class="flex gap-4 mt-6">
@@ -577,7 +603,57 @@
             </div>
         </div>
 
-        <!-- ========== PAGE 5: ABOUT ========== -->
+        <!-- ========== PAGE 5: HOW IT WORKS ========== -->
+        <div id="howitworksPage" class="page">
+            <div class="glass-card rounded-2xl p-8 mb-8 text-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-question-circle text-4xl text-purple-400"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-white mb-4">Qanday ishlaydi?</h2>
+                <p class="text-white/60 text-lg max-w-2xl mx-auto">3 oddiy qadamda tejamkor sayohat</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div class="glass-card rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-2xl">1</div>
+                    <div class="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-calendar-plus text-2xl text-purple-400"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-xl mb-2">Tadbir yarating</h3>
+                    <p class="text-white/50">Manzil, vaqt va qatnashchilar sonini belgilang</p>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-2xl">2</div>
+                    <div class="w-14 h-14 bg-pink-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-user-plus text-2xl text-pink-400"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-xl mb-2">Do'stlaringizni qo'shing</h3>
+                    <p class="text-white/50">Do'stlaringizni taklif qiling va hissalarini kiriting</p>
+                </div>
+                
+                <div class="glass-card rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-2xl">3</div>
+                    <div class="w-14 h-14 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-line text-2xl text-green-400"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-xl mb-2">Hisob-kitobni ko'ring</h3>
+                    <p class="text-white/50">Kim qancha to'lagan va qancha tejaganingizni bilib oling</p>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-8">
+                <h3 class="text-xl font-bold text-white mb-6 text-center">Video ko'rsatma</h3>
+                <div class="aspect-video glass rounded-xl flex items-center justify-center">
+                    <div class="text-center">
+                        <i class="fas fa-play-circle text-6xl text-purple-400 mb-4 cursor-pointer hover:text-purple-300 transition"></i>
+                        <p class="text-white/50">Tizim qanday ishlashini ko'ring</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== PAGE 6: ABOUT ========== -->
         <div id="aboutPage" class="page">
             <div class="glass-card rounded-2xl p-8 text-center mb-6">
                 <div class="floating">
@@ -586,9 +662,7 @@
                     </div>
                 </div>
                 <h2 class="text-3xl font-bold text-white mb-4">Event<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Ride</span></h2>
-                <p class="text-white/60 text-lg max-w-2xl mx-auto">
-                    Tadbirga birgalikda taksi chaqirish platformasi
-                </p>
+                <p class="text-white/60 text-lg max-w-2xl mx-auto">Tadbirga birgalikda taksi chaqirish platformasi</p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-6">
@@ -633,4 +707,491 @@
                         <span class="px-3 py-1 bg-purple-500/20 rounded-full text-purple-300 text-sm">HTML5</span>
                         <span class="px-3 py-1 bg-blue-500/20 rounded-full text-blue-300 text-sm">Tailwind CSS</span>
                         <span class="px-3 py-1 bg-yellow-500/20 rounded-full text-yellow-300 text-sm">JavaScript</span>
-                        <span class="px-3 py-1 bg-pink-500/20 rounded-full
+                        <span class="px-3 py-1 bg-pink-500/20 rounded-full text-pink-300 text-sm">Font Awesome</span>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fas fa-clock text-2xl text-orange-400"></i>
+                        <h3 class="text-xl font-bold text-white">Versiya</h3>
+                    </div>
+                    <p class="text-white/60">Versiya 1.0.0</p>
+                    <p class="text-white/40 text-sm mt-2">Oxirgi yangilanish: 2026</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== PAGE 7: CONTACT ========== -->
+        <div id="contactPage" class="page">
+            <div class="glass-card rounded-2xl p-8 text-center mb-6">
+                <div class="w-20 h-20 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-envelope text-4xl text-purple-400"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-white mb-4">Bog'lanish</h2>
+                <p class="text-white/60 text-lg max-w-2xl mx-auto">Savollar yoki takliflaringiz bo'lsa, biz bilan bog'lanishingiz mumkin</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <i class="fas fa-phone-alt text-purple-400"></i>
+                        Biz bilan bog'lanish
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-3 glass rounded-xl">
+                            <i class="fas fa-map-marker-alt text-purple-400 text-xl"></i>
+                            <div>
+                                <p class="text-white/50 text-sm">Manzil</p>
+                                <p class="text-white">Samarqand, O'zbekiston</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 p-3 glass rounded-xl">
+                            <i class="fas fa-phone text-pink-400 text-xl"></i>
+                            <div>
+                                <p class="text-white/50 text-sm">Telefon</p>
+                                <p class="text-white">+998 (90) 123 45 67</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 p-3 glass rounded-xl">
+                            <i class="fas fa-envelope text-green-400 text-xl"></i>
+                            <div>
+                                <p class="text-white/50 text-sm">Email</p>
+                                <p class="text-white">info@eventride.uz</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                        <i class="fas fa-paper-plane text-purple-400"></i>
+                        Xabar yuborish
+                    </h3>
+                    <form id="contactForm">
+                        <div class="space-y-4">
+                            <input type="text" placeholder="Ismingiz" 
+                                   class="w-full px-4 py-3 glass rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-purple-500">
+                            <input type="email" placeholder="Email manzilingiz" 
+                                   class="w-full px-4 py-3 glass rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-purple-500">
+                            <textarea rows="4" placeholder="Xabaringiz..." 
+                                   class="w-full px-4 py-3 glass rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-purple-500"></textarea>
+                            <button type="submit" class="w-full btn-gradient py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2">
+                                <i class="fas fa-paper-plane"></i> Yuborish
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== FOOTER with Navigation ========== -->
+<footer class="glass border-t border-white/10 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Footer Navigation (Headerdagi sahifalar footerda ham) -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-8">
+            <div>
+                <h4 class="text-white font-semibold mb-3 flex items-center gap-2">
+                    <i class="fas fa-compass text-purple-400 text-sm"></i>
+                    Navigatsiya
+                </h4>
+                <ul class="space-y-2">
+                    <li><button onclick="app.switchTab('home')" class="footer-link text-white/50 hover:text-purple-400 text-sm transition flex items-center gap-2"><i class="fas fa-home text-xs"></i> Bosh sahifa</button></li>
+                    <li><button onclick="app.switchTab('create')" class="footer-link text-white/50 hover:text-purple-400 text-sm transition flex items-center gap-2"><i class="fas fa-plus-circle text-xs"></i> Tadbir yaratish</button></li>
+                    <li><button onclick="app.switchTab('howitworks')" class="footer-link text-white/50 hover:text-purple-400 text-sm transition flex items-center gap-2"><i class="fas fa-question-circle text-xs"></i> Qanday ishlaydi</button></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="text-white font-semibold mb-3 flex items-center gap-2">
+                    <i class="fas fa-info-circle text-pink-400 text-sm"></i>
+                    Loyiha
+                </h4>
+                <ul class="space-y-2">
+                    <li><button onclick="app.switchTab('about')" class="footer-link text-white/50 hover:text-purple-400 text-sm transition flex items-center gap-2"><i class="fas fa-info-circle text-xs"></i> Loyiha haqida</button></li>
+                    <li><button onclick="app.switchTab('contact')" class="footer-link text-white/50 hover:text-purple-400 text-sm transition flex items-center gap-2"><i class="fas fa-envelope text-xs"></i> Bog'lanish</button></li>
+                    <li><a href="#" class="footer-link text-white/50 hover:text-purple-400 text-sm transition flex items-center gap-2"><i class="fas fa-shield-alt text-xs"></i> Maxfiylik siyosati</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="text-white font-semibold mb-3 flex items-center gap-2">
+                    <i class="fas fa-link text-green-400 text-sm"></i>
+                    Tezkor havolalar
+                </h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="footer-link text-white/50 hover:text-purple-400 text-sm transition flex items-center gap-2"><i class="fas fa-star text-xs"></i> FAQ</a></li>
+                    <li><a href="#" class="footer-link text-white/50 hover:text-purple-400 text-sm transition flex items-center gap-2"><i class="fas fa-headset text-xs"></i> Qo'llab-quvvatlash</a></li>
+                    <li><a href="#" class="footer-link text-white/50 hover:text-purple-400 text-sm transition flex items-center gap-2"><i class="fas fa-blog text-xs"></i> Blog</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="text-white font-semibold mb-3 flex items-center gap-2">
+                    <i class="fas fa-credit-card text-blue-400 text-sm"></i>
+                    To'lov usullari
+                </h4>
+                <ul class="space-y-2">
+                    <li class="text-white/50 text-sm flex items-center gap-2"><i class="fab fa-cc-visa text-purple-400"></i> Click</li>
+                    <li class="text-white/50 text-sm flex items-center gap-2"><i class="fas fa-mobile-alt text-pink-400"></i> Payme</li>
+                    <li class="text-white/50 text-sm flex items-center gap-2"><i class="fas fa-money-bill text-green-400"></i> Naqd</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="text-white font-semibold mb-3 flex items-center gap-2">
+                    <i class="fas fa-share-alt text-purple-400 text-sm"></i>
+                    Ijtimoiy tarmoqlar
+                </h4>
+                <div class="flex gap-3">
+                    <a href="#" class="social-icon w-10 h-10 glass rounded-xl flex items-center justify-center text-white/60 hover:text-purple-400 transition"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-icon w-10 h-10 glass rounded-xl flex items-center justify-center text-white/60 hover:text-pink-400 transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon w-10 h-10 glass rounded-xl flex items-center justify-center text-white/60 hover:text-blue-400 transition"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer Bottom -->
+        <div class="border-t border-white/10 pt-6 text-center">
+            <p class="text-white/40 text-sm">
+                <i class="fas fa-copyright mr-1"></i> 2026 EventRide. Barcha huquqlar himoyalangan.
+            </p>
+            <p class="text-white/30 text-xs mt-2">
+                Samarqand, O'zbekiston | Birgalikda tejamkor sayohat
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script>
+// Event Ride Application
+class EventRideApp {
+    constructor() {
+        this.eventData = null;
+        this.participants = [];
+        this.currentTab = 'home';
+        this.taxiPrices = { econom: 45000, comfort: 75000, business: 120000 };
+        this.init();
+    }
+
+    init() {
+        this.loadEventListeners();
+        this.checkStoredData();
+        this.updateLiveStats();
+        
+        // Payment radio styling
+        document.querySelectorAll('.payment-label').forEach(label => {
+            const radio = label.querySelector('.payment-radio');
+            if (radio && radio.checked) {
+                label.classList.add('bg-purple-500/20', 'border-purple-500');
+                label.classList.remove('glass');
+            }
+            
+            radio?.addEventListener('change', () => {
+                document.querySelectorAll('.payment-label').forEach(l => {
+                    l.classList.remove('bg-purple-500/20', 'border-purple-500');
+                    l.classList.add('glass');
+                });
+                if (radio.checked) {
+                    label.classList.remove('glass');
+                    label.classList.add('bg-purple-500/20', 'border-purple-500');
+                }
+            });
+        });
+    }
+
+    loadEventListeners() {
+        document.getElementById('eventForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.createEvent();
+        });
+
+        document.getElementById('joinForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.addParticipant();
+        });
+
+        document.getElementById('backToCreateBtn')?.addEventListener('click', () => this.showJoinPage());
+        document.getElementById('viewResultsFromJoinBtn')?.addEventListener('click', () => {
+            this.showCalculations();
+            this.switchTab('results');
+        });
+        document.getElementById('backToJoinFromResultsBtn')?.addEventListener('click', () => this.showJoinPage());
+        document.getElementById('resetFromResultsBtn')?.addEventListener('click', () => this.resetAll());
+    }
+
+    switchTab(tabName) {
+        this.currentTab = tabName;
+        
+        // Hide all pages
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        
+        // Show selected page
+        const pageMap = {
+            'home': 'homePage',
+            'create': 'createPage',
+            'howitworks': 'howitworksPage',
+            'about': 'aboutPage',
+            'contact': 'contactPage',
+            'join': 'joinPage',
+            'results': 'resultsPage'
+        };
+        
+        const pageId = pageMap[tabName];
+        if (pageId && document.getElementById(pageId)) {
+            document.getElementById(pageId).classList.add('active');
+        }
+        
+        // Update header tabs styling
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.classList.remove('active-tab');
+            tab.classList.add('text-white/70');
+        });
+        
+        const activeTabBtn = document.getElementById(`tab${tabName.charAt(0).toUpperCase() + tabName.slice(1)}Btn`);
+        if (activeTabBtn) {
+            activeTabBtn.classList.add('active-tab');
+            activeTabBtn.classList.remove('text-white/70');
+        }
+        
+        if (tabName === 'results' && this.eventData) this.showCalculations();
+    }
+
+    showJoinPage() {
+        this.switchTab('join');
+        if (this.eventData) this.updateEventSummary();
+    }
+
+    createEvent() {
+        const eventName = document.getElementById('eventName').value;
+        const startLocation = document.getElementById('startLocation').value;
+        const destination = document.getElementById('destination').value;
+        const eventDate = document.getElementById('eventDate').value;
+        const eventTime = document.getElementById('eventTime').value;
+        const participantsCount = parseInt(document.getElementById('participantsCount').value);
+        const taxiType = document.getElementById('taxiType').value;
+
+        if (!eventName || !startLocation || !destination || !eventDate || !eventTime) {
+            this.showToast('Iltimos, barcha maydonlarni to\'ldiring!', 'error');
+            return;
+        }
+
+        const taxiPrice = this.taxiPrices[taxiType];
+        const perPerson = Math.ceil(taxiPrice / participantsCount);
+
+        this.eventData = {
+            eventName, startLocation, destination, eventDate, eventTime,
+            participantsCount, taxiType, taxiPrice, perPersonExpected: perPerson,
+            createdAt: new Date().toISOString()
+        };
+
+        this.participants = [];
+        this.saveToLocalStorage();
+        this.updateEventSummary();
+        this.showJoinPage();
+        this.showToast('Tadbir muvaffaqiyatli yaratildi!', 'success');
+        document.getElementById('eventForm').reset();
+        this.updateLiveStats();
+    }
+
+    updateEventSummary() {
+        if (!this.eventData) return;
+
+        const summaryHtml = `
+            <div class="flex flex-col md:flex-row justify-between gap-4">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-2">
+                        <i class="fas fa-calendar-day text-amber-400"></i> ${this.eventData.eventName}
+                    </h3>
+                    <p class="text-white/80 text-sm mb-1">
+                        <i class="fas fa-map-marker-alt text-amber-400 mr-2"></i>
+                        ${this.eventData.startLocation} → ${this.eventData.destination}
+                    </p>
+                    <p class="text-white/80 text-sm">
+                        <i class="fas fa-clock text-amber-400 mr-2"></i>
+                        ${this.eventData.eventDate} | ${this.eventData.eventTime}
+                    </p>
+                </div>
+                <div class="bg-black/30 rounded-xl p-3 text-center">
+                    <p class="text-white/60 text-xs">Taksi narxi</p>
+                    <p class="text-2xl font-bold text-white">${this.eventData.taxiPrice.toLocaleString()} so'm</p>
+                    <p class="text-xs text-purple-400">${this.eventData.taxiType.toUpperCase()}</p>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-amber-400/30">
+                <div class="flex justify-between items-center flex-wrap gap-3">
+                    <div>
+                        <i class="fas fa-calculator text-amber-400 mr-2"></i>
+                        <span class="text-white">Har bir kishi taxminan:</span>
+                        <span class="text-white font-bold">${this.eventData.perPersonExpected.toLocaleString()} so'm</span>
+                    </div>
+                    <div class="bg-purple-500/30 px-3 py-1 rounded-full">
+                        <span class="text-white text-sm">
+                            <i class="fas fa-users mr-1"></i>
+                            ${this.participants.length}/${this.eventData.participantsCount} qatnashchi
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const summaryElements = document.querySelectorAll('#eventSummary, #finalEventSummary');
+        summaryElements.forEach(el => {
+            if (el) el.innerHTML = summaryHtml;
+        });
+    }
+
+    addParticipant() {
+        if (!this.eventData) {
+            this.showToast('Avval tadbir yarating!', 'error');
+            this.switchTab('create');
+            return;
+        }
+
+        if (this.participants.length >= this.eventData.participantsCount) {
+            this.showToast(`Maksimum ${this.eventData.participantsCount} ta qatnashchi bo'lishi mumkin!`, 'error');
+            return;
+        }
+
+        const name = document.getElementById('participantName').value;
+        const amount = parseInt(document.getElementById('contributionAmount').value);
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+        if (!name || !amount || amount <= 0) {
+            this.showToast('Ism va to\'g\'ri miqdorni kiriting!', 'error');
+            return;
+        }
+
+        const status = amount >= this.eventData.perPersonExpected ? 'to\'langan' : 'qisman';
+
+        this.participants.push({
+            id: Date.now() + Math.random(),
+            name, amount, paymentMethod, status,
+            date: new Date().toISOString()
+        });
+
+        document.getElementById('joinForm').reset();
+        document.getElementById('participantName').value = '';
+        document.getElementById('contributionAmount').value = '';
+        
+        this.saveToLocalStorage();
+        this.updateEventSummary();
+        this.showToast(`${name} muvaffaqiyatli qo'shildi!`, 'success');
+        this.updateLiveStats();
+        
+        if (this.participants.length === this.eventData.participantsCount) {
+            setTimeout(() => {
+                if (confirm('Barcha qatnashchilar qo\'shildi! Hisob-kitobni ko\'rasizmi?')) {
+                    this.showCalculations();
+                    this.switchTab('results');
+                }
+            }, 100);
+        }
+    }
+
+    showCalculations() {
+        if (!this.eventData || this.participants.length === 0) {
+            this.showToast('Hech qanday qatnashchi yo\'q!', 'error');
+            return;
+        }
+
+        const totalCollected = this.participants.reduce((sum, p) => sum + p.amount, 0);
+        const taxiPrice = this.eventData.taxiPrice;
+        const deficit = taxiPrice - totalCollected;
+        const perPersonFair = Math.ceil(taxiPrice / this.participants.length);
+        
+        document.getElementById('totalTaxiPrice').innerHTML = `${taxiPrice.toLocaleString()} so'm`;
+        document.getElementById('totalParticipants').innerHTML = this.participants.length;
+        document.getElementById('collectedAmount').innerHTML = `${totalCollected.toLocaleString()} so'm`;
+        document.getElementById('perPersonAmount').innerHTML = `${perPersonFair.toLocaleString()} so'm`;
+
+        const tbody = document.getElementById('participantsTableBody');
+        tbody.innerHTML = '';
+        
+        this.participants.forEach(p => {
+            const row = tbody.insertRow();
+            row.className = 'border-b border-white/10';
+            row.insertCell(0).innerHTML = `<span class="text-white py-3 px-4 block"><i class="fas fa-user text-purple-400 mr-2"></i>${p.name}</span>`;
+            row.insertCell(1).innerHTML = `<span class="text-white py-3 px-4 block">${p.amount.toLocaleString()} so'm</span>`;
+            row.insertCell(2).innerHTML = `<span class="text-white py-3 px-4 block"><i class="fas ${p.paymentMethod === 'click' ? 'fa-credit-card' : p.paymentMethod === 'payme' ? 'fa-mobile-alt' : 'fa-money-bill'} mr-1"></i> ${p.paymentMethod.toUpperCase()}</span>`;
+            row.insertCell(3).innerHTML = `<span class="py-3 px-4 block ${p.status === 'to\'langan' ? 'text-green-400' : 'text-yellow-400'} font-semibold">${p.status === 'to\'langan' ? '✅ To\'langan' : '⚠️ Qisman'}</span>`;
+        });
+
+        const savingsMsg = document.getElementById('savingsMessage');
+        if (deficit > 0) {
+            savingsMsg.innerHTML = `
+                <i class="fas fa-exclamation-triangle text-red-400 mr-2"></i>
+                <span class="text-red-200">Hali ${deficit.toLocaleString()} so'm yig'ilmagan!</span>
+            `;
+            savingsMsg.className = 'mt-6 p-4 rounded-xl text-center font-semibold bg-red-500/20 border border-red-400/30';
+        } else {
+            const savings = totalCollected - taxiPrice;
+            savingsMsg.innerHTML = `
+                <i class="fas fa-chart-line text-green-400 mr-2"></i>
+                <span class="text-green-200">🎉 Ajoyib! Siz ${savings.toLocaleString()} so'm tejadingiz!</span>
+            `;
+            savingsMsg.className = 'mt-6 p-4 rounded-xl text-center font-semibold bg-green-500/20 border border-green-400/30';
+        }
+    }
+
+    updateLiveStats() {
+        document.getElementById('liveParticipantsCount').innerHTML = this.participants.length;
+        if (this.eventData && this.eventData.taxiPrice) {
+            const totalCollected = this.participants.reduce((sum, p) => sum + p.amount, 0);
+            const savingsPercent = Math.round((totalCollected / this.eventData.taxiPrice) * 100);
+            document.getElementById('liveSavingsPercent').innerHTML = savingsPercent > 100 ? 100 : savingsPercent;
+        }
+    }
+
+    showToast(message, type) {
+        const toast = document.createElement('div');
+        toast.className = `fixed bottom-4 right-4 z-50 px-6 py-3 rounded-xl text-white font-semibold shadow-2xl ${
+            type === 'success' ? 'bg-green-600' : 'bg-red-600'
+        }`;
+        toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} mr-2"></i>${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    showDemo() {
+        this.showToast('Demo versiyasi tez kunda!', 'success');
+    }
+
+    checkStoredData() {
+        const saved = localStorage.getItem('eventRideData');
+        if (saved) {
+            const data = JSON.parse(saved);
+            if (data.eventData && data.participants.length > 0) {
+                this.eventData = data.eventData;
+                this.participants = data.participants;
+                this.updateEventSummary();
+                this.updateLiveStats();
+            }
+        }
+    }
+
+    saveToLocalStorage() {
+        localStorage.setItem('eventRideData', JSON.stringify({
+            eventData: this.eventData,
+            participants: this.participants
+        }));
+    }
+
+    resetAll() {
+        if (confirm('Barcha ma\'lumotlar o\'chiriladi. Yangi tadbir yaratasizmi?')) {
+            this.eventData = null;
+            this.participants = [];
+            localStorage.removeItem('eventRideData');
+            this.switchTab('create');
+            this.updateLiveStats();
+            this.showToast('Barcha ma\'lumotlar tozalandi!', 'success');
+        }
+    }
+}
+
+const app = new EventRideApp();
+</script>
+</body>
+</html>
