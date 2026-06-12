@@ -4,194 +4,666 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Event Ride | Tadbirga birgalikda taksi</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-
-<div class="app-container">
-    <!-- Header -->
-    <header>
-        <div class="logo">
-            <i class="fas fa-car-side"></i>
-            <span>Event<span class="highlight">Ride</span></span>
-        </div>
-        <div class="header-badge">Birgalikda tejamkor</div>
-    </header>
-
-    <!-- Asosiy konteyner: 3 bet -->
-    <div class="pages-container" id="pagesContainer">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
         
-        <!-- 1-BET: Tadbir yaratish -->
-        <div class="page active" id="page1">
-            <div class="page-header">
-                <h2><i class="fas fa-plus-circle"></i> Tadbir yaratish</h2>
-                <p>Birgalikda taksi chaqirish uchun tadbir ma'lumotlarini kiriting</p>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #2e1065 100%);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1e1b4b;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            border-radius: 10px;
+        }
+        
+        /* Page transitions */
+        .page {
+            display: none;
+            animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Glow effects */
+        .glow {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        
+        .glow:hover {
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+        }
+        
+        /* Input focus effects */
+        input:focus, select:focus {
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+        
+        /* Card hover effect */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="font-[Inter]">
+
+<div class="min-h-screen py-6 px-4 md:py-8 md:px-8">
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- Header -->
+        <header class="bg-white/10 backdrop-blur-xl rounded-2xl p-5 mb-8 border border-white/20 shadow-2xl">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-car-side text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold text-white">Event<span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Ride</span></h1>
+                        <p class="text-white/60 text-sm">Tadbirga birgalikda tejamkor sayohat</p>
+                    </div>
+                </div>
+                <div class="flex gap-3">
+                    <div class="bg-purple-500/20 backdrop-blur-sm px-4 py-2 rounded-full border border-purple-400/30">
+                        <i class="fas fa-users text-purple-400 mr-2"></i>
+                        <span class="text-white text-sm">Birgalikda tejamkor</span>
+                    </div>
+                    <div class="bg-pink-500/20 backdrop-blur-sm px-4 py-2 rounded-full border border-pink-400/30">
+                        <i class="fas fa-chart-line text-pink-400 mr-2"></i>
+                        <span class="text-white text-sm">50% gacha tejamkorlik</span>
+                    </div>
+                </div>
             </div>
-            <div class="card">
-                <form id="eventForm">
-                    <div class="form-group">
-                        <label><i class="fas fa-tag"></i> Tadbir nomi</label>
-                        <input type="text" id="eventName" placeholder="Masalan: 'Navro'z konserti 2026'" required>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-map-marker-alt"></i> Manzil (boshlang'ich nuqta)</label>
-                        <input type="text" id="startLocation" placeholder="Chilonzor, Taras Shevchenko ko'chasi" required>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-flag-checkered"></i> Boradigan manzil</label>
-                        <input type="text" id="destination" placeholder="Tashkent City, Humo Arena" required>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label><i class="fas fa-calendar-alt"></i> Sana</label>
-                            <input type="date" id="eventDate" required>
+        </header>
+
+        <!-- Pages Container -->
+        <div id="pagesContainer">
+            
+            <!-- PAGE 1: Create Event -->
+            <div class="page active" id="page1">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+                        <i class="fas fa-plus-circle text-purple-400"></i>
+                        Yangi tadbir yaratish
+                    </h2>
+                    <p class="text-white/70">Tadbir ma'lumotlarini kiriting va birgalikda taksi chaqirishni boshlang</p>
+                </div>
+
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 md:p-8 border border-white/20 shadow-xl card-hover">
+                    <form id="eventForm">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="md:col-span-2">
+                                <label class="block text-white font-semibold mb-2">
+                                    <i class="fas fa-tag text-purple-400 mr-2"></i>Tadbir nomi
+                                </label>
+                                <input type="text" id="eventName" placeholder="Masalan: 'Navro'z konserti 2026'" 
+                                       class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-purple-500 transition-all">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-white font-semibold mb-2">
+                                    <i class="fas fa-map-marker-alt text-purple-400 mr-2"></i>Boshlanish manzili
+                                </label>
+                                <input type="text" id="startLocation" placeholder="Chilonzor, Taras Shevchenko ko'chasi" 
+                                       class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-purple-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-white font-semibold mb-2">
+                                    <i class="fas fa-flag-checkered text-pink-400 mr-2"></i>Boradigan manzil
+                                </label>
+                                <input type="text" id="destination" placeholder="Tashkent City, Humo Arena" 
+                                       class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-purple-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-white font-semibold mb-2">
+                                    <i class="fas fa-calendar-alt text-purple-400 mr-2"></i>Sana
+                                </label>
+                                <input type="date" id="eventDate" 
+                                       class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white focus:outline-none focus:border-purple-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-white font-semibold mb-2">
+                                    <i class="fas fa-clock text-pink-400 mr-2"></i>Vaqt
+                                </label>
+                                <input type="time" id="eventTime" 
+                                       class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white focus:outline-none focus:border-purple-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-white font-semibold mb-2">
+                                    <i class="fas fa-users text-purple-400 mr-2"></i>Qatnashchilar soni
+                                </label>
+                                <input type="number" id="participantsCount" min="2" max="20" value="4" 
+                                       class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white focus:outline-none focus:border-purple-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-white font-semibold mb-2">
+                                    <i class="fas fa-taxi text-pink-400 mr-2"></i>Taksi turi
+                                </label>
+                                <select id="taxiType" class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white focus:outline-none focus:border-purple-500">
+                                    <option value="econom" class="bg-gray-900">🚗 Econom (45,000 so'm)</option>
+                                    <option value="comfort" class="bg-gray-900">🚙 Comfort+ (75,000 so'm)</option>
+                                    <option value="business" class="bg-gray-900">💼 Business (120,000 so'm)</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-clock"></i> Vaqt</label>
-                            <input type="time" id="eventTime" required>
-                        </div>
+                        
+                        <button type="submit" class="mt-8 w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                            <i class="fas fa-arrow-right"></i>
+                            Tadbirni yaratish
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="mt-6 bg-purple-500/10 backdrop-blur-sm rounded-xl p-4 border border-purple-400/20">
+                    <div class="flex items-center gap-3 text-white/80">
+                        <i class="fas fa-info-circle text-purple-400 text-xl"></i>
+                        <p class="text-sm">Taksi narxi Yandex Taxi API asosida real vaqtda hisoblanadi. Siz 50% gacha tejashingiz mumkin!</p>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label><i class="fas fa-users"></i> Qatnashchilar soni</label>
-                            <input type="number" id="participantsCount" min="2" max="20" value="4" required>
+                </div>
+            </div>
+
+            <!-- PAGE 2: Join Event -->
+            <div class="page" id="page2">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+                        <i class="fas fa-user-plus text-purple-400"></i>
+                        Tadbirga qo'shilish
+                    </h2>
+                    <p class="text-white/70">Ismingizni va qancha hissa qo'shmoqchi ekanligingizni kiriting</p>
+                </div>
+
+                <div id="eventSummary" class="bg-gradient-to-r from-amber-500/20 to-orange-500/20 backdrop-blur-lg rounded-2xl p-6 border border-amber-400/30 mb-6"></div>
+
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 md:p-8 border border-white/20 shadow-xl">
+                    <form id="joinForm">
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-white font-semibold mb-2">
+                                    <i class="fas fa-user text-purple-400 mr-2"></i>Ismingiz
+                                </label>
+                                <input type="text" id="participantName" placeholder="Ismingizni kiriting" 
+                                       class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-purple-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-white font-semibold mb-2">
+                                    <i class="fas fa-money-bill-wave text-pink-400 mr-2"></i>Hissa miqdori (so'm)
+                                </label>
+                                <input type="number" id="contributionAmount" placeholder="Masalan: 25000" 
+                                       class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-white/40 focus:outline-none focus:border-purple-500">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-white font-semibold mb-3">
+                                    <i class="fas fa-credit-card text-purple-400 mr-2"></i>To'lov usuli
+                                </label>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <label class="flex items-center justify-center gap-2 p-3 bg-white/5 border border-white/20 rounded-xl cursor-pointer hover:bg-purple-500/20 transition-all">
+                                        <input type="radio" name="paymentMethod" value="click" checked class="hidden">
+                                        <i class="fab fa-cc-visa text-purple-400 text-xl"></i>
+                                        <span class="text-white text-sm">Click</span>
+                                    </label>
+                                    <label class="flex items-center justify-center gap-2 p-3 bg-white/5 border border-white/20 rounded-xl cursor-pointer hover:bg-purple-500/20 transition-all">
+                                        <input type="radio" name="paymentMethod" value="payme" class="hidden">
+                                        <i class="fas fa-mobile-alt text-pink-400 text-xl"></i>
+                                        <span class="text-white text-sm">Payme</span>
+                                    </label>
+                                    <label class="flex items-center justify-center gap-2 p-3 bg-white/5 border border-white/20 rounded-xl cursor-pointer hover:bg-purple-500/20 transition-all">
+                                        <input type="radio" name="paymentMethod" value="cash" class="hidden">
+                                        <i class="fas fa-money-bill text-green-400 text-xl"></i>
+                                        <span class="text-white text-sm">Naqd</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-taxi"></i> Taksi turi</label>
-                            <select id="taxiType">
-                                <option value="econom">Econom (Yandex Econom)</option>
-                                <option value="comfort">Comfort+ (Yandex Comfort)</option>
-                                <option value="business">Business (Business Class)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <i class="fas fa-arrow-right"></i> Tadbirni yaratish
+                        
+                        <button type="submit" class="mt-8 w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            Hissa qo'shish
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="flex gap-4 mt-6">
+                    <button id="backToEventBtn" class="flex-1 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
+                        <i class="fas fa-arrow-left"></i> Orqaga
                     </button>
-                </form>
-            </div>
-            <div class="info-note">
-                <i class="fas fa-info-circle"></i> Taxminiy narx Yandex Taxi API asosida hisoblanadi
-            </div>
-        </div>
-
-        <!-- 2-BET: Tadbirga qo'shilish va hissa kiritish -->
-        <div class="page" id="page2">
-            <div class="page-header">
-                <h2><i class="fas fa-user-plus"></i> Tadbirga qo'shilish</h2>
-                <p>Ismingizni va qancha hissa qo'shmoqchi ekanligingizni kiriting</p>
-            </div>
-            <div class="event-summary-card" id="eventSummary">
-                <!-- Dinamik ravishda to'ldiriladi -->
-            </div>
-            <div class="card">
-                <form id="joinForm">
-                    <div class="form-group">
-                        <label><i class="fas fa-user"></i> Ismingiz</label>
-                        <input type="text" id="participantName" placeholder="Ismingizni kiriting" required>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-money-bill-wave"></i> Hissa miqdori (so'm)</label>
-                        <input type="number" id="contributionAmount" placeholder="Masalan: 25000" required>
-                    </div>
-                    <div class="payment-methods">
-                        <label><i class="fas fa-credit-card"></i> To'lov usuli:</label>
-                        <div class="payment-options">
-                            <label class="payment-option">
-                                <input type="radio" name="paymentMethod" value="click" checked> <i class="fab fa-cc-visa"></i> Click
-                            </label>
-                            <label class="payment-option">
-                                <input type="radio" name="paymentMethod" value="payme"> <i class="fas fa-mobile-alt"></i> Payme
-                            </label>
-                            <label class="payment-option">
-                                <input type="radio" name="paymentMethod" value="cash"> <i class="fas fa-money-bill"></i> Naqd
-                            </label>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-success btn-block">
-                        <i class="fas fa-hand-holding-usd"></i> Hissa qo'shish
+                    <button id="viewResultsBtn" class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
+                        Hisob-kitob <i class="fas fa-arrow-right"></i>
                     </button>
-                </form>
+                </div>
             </div>
-            <div class="action-buttons">
-                <button class="btn btn-outline" id="backToEventBtn">
-                    <i class="fas fa-arrow-left"></i> Orqaga
-                </button>
-                <button class="btn btn-primary" id="viewResultsBtn">
-                    Hisob-kitob <i class="fas fa-arrow-right"></i>
-                </button>
+
+            <!-- PAGE 3: Results -->
+            <div class="page" id="page3">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+                        <i class="fas fa-chart-line text-purple-400"></i>
+                        Hisob-kitot va statistika
+                    </h2>
+                    <p class="text-white/70">Barcha qatnashchilar va to'lovlar haqida batafsil ma'lumot</p>
+                </div>
+
+                <div id="finalEventSummary" class="bg-gradient-to-r from-amber-500/20 to-orange-500/20 backdrop-blur-lg rounded-2xl p-6 border border-amber-400/30 mb-6"></div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-lg rounded-xl p-4 border border-white/20">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-purple-500/30 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-car text-purple-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-white/60 text-xs">Umumiy taksi</p>
+                                <p id="totalTaxiPrice" class="text-white font-bold text-lg">0 so'm</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 backdrop-blur-lg rounded-xl p-4 border border-white/20">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-blue-500/30 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-users text-blue-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-white/60 text-xs">Qatnashchilar</p>
+                                <p id="totalParticipants" class="text-white font-bold text-lg">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-green-600/20 to-emerald-600/20 backdrop-blur-lg rounded-xl p-4 border border-white/20">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-green-500/30 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-coins text-green-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-white/60 text-xs">Yig'ilgan summa</p>
+                                <p id="collectedAmount" class="text-white font-bold text-lg">0 so'm</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-orange-600/20 to-red-600/20 backdrop-blur-lg rounded-xl p-4 border border-white/20">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-orange-500/30 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-chart-simple text-orange-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-white/60 text-xs">Bir kishiga</p>
+                                <p id="perPersonAmount" class="text-white font-bold text-lg">0 so'm</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Participants Table -->
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                        <i class="fas fa-list-ul text-purple-400"></i>
+                        Qatnashchilar ro'yxati
+                    </h3>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-white/5 border-b border-white/10">
+                                <tr>
+                                    <th class="text-left py-3 px-4 text-white/70 font-semibold">Ism</th>
+                                    <th class="text-left py-3 px-4 text-white/70 font-semibold">Hissa</th>
+                                    <th class="text-left py-3 px-4 text-white/70 font-semibold">To'lov usuli</th>
+                                    <th class="text-left py-3 px-4 text-white/70 font-semibold">Holat</th>
+                                </tr>
+                            </thead>
+                            <tbody id="participantsTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="savingsMessage" class="mt-6 p-4 rounded-xl text-center font-semibold">
+                        <!-- Savings message -->
+                    </div>
+                </div>
+                
+                <div class="flex gap-4 mt-6">
+                    <button id="backToJoinBtn" class="flex-1 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
+                        <i class="fas fa-arrow-left"></i> Orqaga
+                    </button>
+                    <button id="resetAllBtn" class="flex-1 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-semibold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
+                        <i class="fas fa-plus-circle"></i> Yangi tadbir
+                    </button>
+                </div>
             </div>
         </div>
-
-        <!-- 3-BET: Umumiy hisob-kitob -->
-        <div class="page" id="page3">
-            <div class="page-header">
-                <h2><i class="fas fa-chart-line"></i> Umumiy hisob-kitob</h2>
-                <p>Kim qancha to'lagan, kim to'lamagan</p>
-            </div>
-            <div class="event-summary-card" id="finalEventSummary"></div>
-            <div class="card">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-car"></i></div>
-                        <div class="stat-info">
-                            <h4>Umumiy taksi narxi</h4>
-                            <p id="totalTaxiPrice">0 so'm</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-users"></i></div>
-                        <div class="stat-info">
-                            <h4>Qatnashchilar</h4>
-                            <p id="totalParticipants">0</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-coins"></i></div>
-                        <div class="stat-info">
-                            <h4>Yig'ilgan summa</h4>
-                            <p id="collectedAmount">0 so'm</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-chart-simple"></i></div>
-                        <div class="stat-info">
-                            <h4>Har bir kishi</h4>
-                            <p id="perPersonAmount">0 so'm</p>
-                        </div>
-                    </div>
-                </div>
-
-                <h3><i class="fas fa-list-ul"></i> Qatnashchilar ro'yxati</h3>
-                <div class="participants-table-container">
-                    <table class="participants-table" id="participantsTable">
-                        <thead>
-                            <tr><th>Ism</th><th>Hissa (so'm)</th><th>To'lov usuli</th><th>Holat</th></tr>
-                        </thead>
-                        <tbody id="participantsTableBody">
-                            <!-- Dinamik -->
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="savings-message" id="savingsMessage">
-                    <!-- Tejamkorlik haqida xabar -->
-                </div>
-            </div>
-            <div class="action-buttons">
-                <button class="btn btn-outline" id="backToJoinBtn">
-                    <i class="fas fa-arrow-left"></i> Orqaga
-                </button>
-                <button class="btn btn-secondary" id="resetAllBtn">
-                    <i class="fas fa-plus-circle"></i> Yangi tadbir
-                </button>
-            </div>
-        </div>
+        
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-white/40 text-sm">
+            <p>© 2026 Event Ride | Birgalikda tejamkor sayohat</p>
+        </footer>
     </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+// Event Ride Application
+class EventRideApp {
+    constructor() {
+        this.eventData = null;
+        this.participants = [];
+        this.taxiPrices = {
+            econom: 45000,
+            comfort: 75000,
+            business: 120000
+        };
+        this.init();
+    }
+
+    init() {
+        this.loadEventListeners();
+        this.checkStoredData();
+        
+        // Radio button styling
+        document.querySelectorAll('.grid label').forEach(label => {
+            const radio = label.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.addEventListener('change', () => {
+                    document.querySelectorAll('.grid label').forEach(l => {
+                        l.classList.remove('bg-purple-500/20', 'border-purple-500');
+                        l.classList.add('bg-white/5', 'border-white/20');
+                    });
+                    if (radio.checked) {
+                        label.classList.remove('bg-white/5', 'border-white/20');
+                        label.classList.add('bg-purple-500/20', 'border-purple-500');
+                    }
+                });
+                if (radio.checked) {
+                    label.classList.remove('bg-white/5', 'border-white/20');
+                    label.classList.add('bg-purple-500/20', 'border-purple-500');
+                }
+            }
+        });
+    }
+
+    loadEventListeners() {
+        document.getElementById('eventForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.createEvent();
+        });
+
+        document.getElementById('joinForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.addParticipant();
+        });
+
+        document.getElementById('backToEventBtn')?.addEventListener('click', () => this.showPage(1));
+        document.getElementById('viewResultsBtn')?.addEventListener('click', () => {
+            this.showCalculations();
+            this.showPage(3);
+        });
+        document.getElementById('backToJoinBtn')?.addEventListener('click', () => this.showPage(2));
+        document.getElementById('resetAllBtn')?.addEventListener('click', () => this.resetAll());
+    }
+
+    checkStoredData() {
+        const saved = localStorage.getItem('eventRideData');
+        if (saved) {
+            const data = JSON.parse(saved);
+            this.eventData = data.eventData;
+            this.participants = data.participants;
+            if (this.eventData && this.participants.length > 0) {
+                this.updateEventSummary();
+                this.showPage(2);
+            }
+        }
+    }
+
+    createEvent() {
+        const eventName = document.getElementById('eventName').value;
+        const startLocation = document.getElementById('startLocation').value;
+        const destination = document.getElementById('destination').value;
+        const eventDate = document.getElementById('eventDate').value;
+        const eventTime = document.getElementById('eventTime').value;
+        const participantsCount = parseInt(document.getElementById('participantsCount').value);
+        const taxiType = document.getElementById('taxiType').value;
+
+        if (!eventName || !startLocation || !destination || !eventDate || !eventTime) {
+            this.showToast('Iltimos, barcha maydonlarni to\'ldiring!', 'error');
+            return;
+        }
+
+        const taxiPrice = this.taxiPrices[taxiType];
+        const perPerson = Math.ceil(taxiPrice / participantsCount);
+
+        this.eventData = {
+            eventName, startLocation, destination, eventDate, eventTime,
+            participantsCount, taxiType, taxiPrice, perPersonExpected: perPerson,
+            createdAt: new Date().toISOString()
+        };
+
+        this.participants = [];
+        this.saveToLocalStorage();
+        this.updateEventSummary();
+        this.showPage(2);
+        this.showToast('Tadbir muvaffaqiyatli yaratildi!', 'success');
+        document.getElementById('eventForm').reset();
+    }
+
+    updateEventSummary() {
+        if (!this.eventData) return;
+
+        const summaryHtml = `
+            <div class="flex flex-col md:flex-row justify-between gap-4">
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-2">
+                        <i class="fas fa-calendar-day text-amber-400"></i> ${this.eventData.eventName}
+                    </h3>
+                    <p class="text-white/80 text-sm mb-1">
+                        <i class="fas fa-map-marker-alt text-amber-400 mr-2"></i>
+                        ${this.eventData.startLocation} → ${this.eventData.destination}
+                    </p>
+                    <p class="text-white/80 text-sm">
+                        <i class="fas fa-clock text-amber-400 mr-2"></i>
+                        ${this.eventData.eventDate} | ${this.eventData.eventTime}
+                    </p>
+                </div>
+                <div class="bg-black/30 rounded-xl p-3 text-center">
+                    <p class="text-white/60 text-xs">Taksi narxi</p>
+                    <p class="text-2xl font-bold text-white">${this.eventData.taxiPrice.toLocaleString()} so'm</p>
+                    <p class="text-xs text-purple-400">${this.eventData.taxiType.toUpperCase()}</p>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-amber-400/30">
+                <div class="flex justify-between items-center flex-wrap gap-3">
+                    <div>
+                        <i class="fas fa-calculator text-amber-400 mr-2"></i>
+                        <span class="text-white">Har bir kishi taxminan:</span>
+                        <span class="text-white font-bold">${this.eventData.perPersonExpected.toLocaleString()} so'm</span>
+                    </div>
+                    <div class="bg-purple-500/30 px-3 py-1 rounded-full">
+                        <span class="text-white text-sm">
+                            <i class="fas fa-users mr-1"></i>
+                            ${this.participants.length}/${this.eventData.participantsCount} qatnashchi
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const summaryElements = document.querySelectorAll('#eventSummary, #finalEventSummary');
+        summaryElements.forEach(el => {
+            if (el) el.innerHTML = summaryHtml;
+        });
+    }
+
+    addParticipant() {
+        if (!this.eventData) {
+            this.showToast('Avval tadbir yarating!', 'error');
+            this.showPage(1);
+            return;
+        }
+
+        if (this.participants.length >= this.eventData.participantsCount) {
+            this.showToast(`Maksimum ${this.eventData.participantsCount} ta qatnashchi bo'lishi mumkin!`, 'error');
+            return;
+        }
+
+        const name = document.getElementById('participantName').value;
+        const amount = parseInt(document.getElementById('contributionAmount').value);
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+        if (!name || !amount || amount <= 0) {
+            this.showToast('Ism va to\'g\'ri miqdorni kiriting!', 'error');
+            return;
+        }
+
+        const expectedAmount = this.eventData.perPersonExpected;
+        const status = amount >= expectedAmount ? 'to\'langan' : 'qisman';
+
+        this.participants.push({
+            id: Date.now() + Math.random(),
+            name, amount, paymentMethod, status,
+            date: new Date().toISOString()
+        });
+
+        document.getElementById('joinForm').reset();
+        document.getElementById('participantName').value = '';
+        document.getElementById('contributionAmount').value = '';
+        
+        this.saveToLocalStorage();
+        this.updateEventSummary();
+        this.showToast(`${name} muvaffaqiyatli qo'shildi!`, 'success');
+        
+        if (this.participants.length === this.eventData.participantsCount) {
+            setTimeout(() => {
+                if (confirm('Barcha qatnashchilar qo\'shildi! Hisob-kitobni ko\'rasizmi?')) {
+                    this.showCalculations();
+                    this.showPage(3);
+                }
+            }, 100);
+        }
+    }
+
+    showCalculations() {
+        if (!this.eventData || this.participants.length === 0) {
+            this.showToast('Hech qanday qatnashchi yo\'q!', 'error');
+            return;
+        }
+
+        const totalCollected = this.participants.reduce((sum, p) => sum + p.amount, 0);
+        const taxiPrice = this.eventData.taxiPrice;
+        const deficit = taxiPrice - totalCollected;
+        const perPersonFair = Math.ceil(taxiPrice / this.participants.length);
+        
+        document.getElementById('totalTaxiPrice').innerHTML = `${taxiPrice.toLocaleString()} so'm`;
+        document.getElementById('totalParticipants').innerHTML = this.participants.length;
+        document.getElementById('collectedAmount').innerHTML = `${totalCollected.toLocaleString()} so'm`;
+        document.getElementById('perPersonAmount').innerHTML = `${perPersonFair.toLocaleString()} so'm`;
+
+        const tbody = document.getElementById('participantsTableBody');
+        tbody.innerHTML = '';
+        
+        this.participants.forEach(p => {
+            const row = tbody.insertRow();
+            row.className = 'border-b border-white/10';
+            row.insertCell(0).innerHTML = `<span class="text-white py-3 px-4 block"><i class="fas fa-user text-purple-400 mr-2"></i>${p.name}</span>`;
+            row.insertCell(1).innerHTML = `<span class="text-white py-3 px-4 block">${p.amount.toLocaleString()} so'm</span>`;
+            row.insertCell(2).innerHTML = `<span class="text-white py-3 px-4 block"><i class="fas ${p.paymentMethod === 'click' ? 'fa-credit-card' : p.paymentMethod === 'payme' ? 'fa-mobile-alt' : 'fa-money-bill'} mr-1"></i> ${p.paymentMethod.toUpperCase()}</span>`;
+            row.insertCell(3).innerHTML = `<span class="py-3 px-4 block ${p.status === 'to\'langan' ? 'text-green-400' : 'text-yellow-400'} font-semibold">${p.status === 'to\'langan' ? '✅ To\'langan' : '⚠️ Qisman'}</span>`;
+        });
+
+        const savingsMsg = document.getElementById('savingsMessage');
+        if (deficit > 0) {
+            savingsMsg.innerHTML = `
+                <i class="fas fa-exclamation-triangle text-red-400 mr-2"></i>
+                <span class="text-red-200">Hali ${deficit.toLocaleString()} so'm yig'ilmagan! Har bir kishi qo'shimcha ${Math.ceil(deficit/this.participants.length).toLocaleString()} so'm to'lashi kerak.</span>
+            `;
+            savingsMsg.className = 'mt-6 p-4 rounded-xl text-center font-semibold bg-red-500/20 border border-red-400/30';
+        } else {
+            const savings = totalCollected - taxiPrice;
+            savingsMsg.innerHTML = `
+                <i class="fas fa-chart-line text-green-400 mr-2"></i>
+                <span class="text-green-200">🎉 Ajoyib! Siz ${savings.toLocaleString()} so'm tejadingiz! Har bir kishi ${perPersonFair.toLocaleString()} so'mdan to'ladi.</span>
+            `;
+            savingsMsg.className = 'mt-6 p-4 rounded-xl text-center font-semibold bg-green-500/20 border border-green-400/30';
+        }
+    }
+
+    showPage(pageNumber) {
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        const targetPage = document.getElementById(`page${pageNumber}`);
+        if (targetPage) targetPage.classList.add('active');
+        if (pageNumber === 2 && this.eventData) this.updateEventSummary();
+    }
+
+    showToast(message, type) {
+        const toast = document.createElement('div');
+        toast.className = `fixed bottom-4 right-4 z-50 px-6 py-3 rounded-xl text-white font-semibold shadow-2xl animate-bounce ${
+            type === 'success' ? 'bg-green-600' : 'bg-red-600'
+        }`;
+        toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} mr-2"></i>${message}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    saveToLocalStorage() {
+        localStorage.setItem('eventRideData', JSON.stringify({
+            eventData: this.eventData,
+            participants: this.participants
+        }));
+    }
+
+    resetAll() {
+        if (confirm('Barcha ma\'lumotlar o\'chiriladi. Yangi tadbir yaratasizmi?')) {
+            this.eventData = null;
+            this.participants = [];
+            localStorage.removeItem('eventRideData');
+            document.getElementById('eventForm')?.reset();
+            document.getElementById('joinForm')?.reset();
+            this.showPage(1);
+            this.showToast('Barcha ma\'lumotlar tozalandi!', 'success');
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => new EventRideApp());
+</script>
 </body>
 </html>
