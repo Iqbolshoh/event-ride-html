@@ -54,7 +54,7 @@ cd eventride
 ## Run
 # Just open index.html in your browser
 open index.html
-# or
+or
 start index.html
 
 ## 3. How to Use
@@ -114,17 +114,19 @@ Message form
 
 <div align="center">
 Technology	Version	Purpose
-https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white	HTML5	Structure
-https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white	v3.x	Styling
-https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black	ES6+	Interactivity
-https://img.shields.io/badge/Font_Awesome-528DD7?style=for-the-badge&logo=fontawesome&logoColor=white	v6.x	Icons
+https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white
+https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white
+https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
+https://img.shields.io/badge/Font_Awesome-528DD7?style=for-the-badge&logo=fontawesome&logoColor=white
 </div>
 
 ## 📁 Project Structure
 
+<pre>
 eventride/
 ├── index.html          # Main file (all HTML, CSS, JS)
 ├── README.md           # Project documentation
+</pre>
 
 ## 🔧 Detailed Features
 
@@ -136,12 +138,14 @@ Preference saved to localStorage
 All elements adapted for both themes
 
 ## 💾 LocalStorage
+<pre>
 javascript
 // Stored data structure
 {
     eventData: {...},      // Event information
     participants: [...]    // List of participants
 }
+</pre>
 
 # To test the project
 1. Open index.html in your browser
