@@ -1,6 +1,6 @@
-<div align="center">
+<div align="">
 
-# 🚗 EventRide | Carpool Platform for Events
+#  EventRide | Carpool Platform for Events
 
 ![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -8,11 +8,8 @@
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-06B6D4?logo=tailwindcss&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
 
-### 🌟 Travel Together, Save Money | Save Up to 50%!
 
-[📚 Documentation](#) • 
-[🎬 Live Demo](https://eventride.uz) • 
-[📧 Contact](mailto:info@eventride.uz)
+
 
 </div>
 
@@ -110,15 +107,17 @@ Address, phone, email
 
 Message form
 
-## 🛠 Technologies Used
+## 🛠️ Built With
 
-<div align="center">
-Technology	Version	Purpose
-https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white
-https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white
-https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black
-https://img.shields.io/badge/Font_Awesome-528DD7?style=for-the-badge&logo=fontawesome&logoColor=white
-</div>
+| Technology | Purpose |
+|---|---|
+| HTML5 | Page structure |
+| CSS3 | Styling & layout |
+| JavaScript (Vanilla) | App logic & interactivity |
+| Chart.js | Data visualization |
+| LocalStorage API | Data persistence |
+
+---
 
 ## 📁 Project Structure
 
