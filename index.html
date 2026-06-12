@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Event Ride | Tadbirga birgalikda taksi</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-car-side"></i>
+            <span>Event<span class="highlight">Ride</span></span>
+        </div>
+        <div class="header-badge">Birgalikda tejamkor</div>
+    </header>
+
+    <!-- Asosiy konteyner: 3 bet -->
+    <div class="pages-container" id="pagesContainer">
+        
+        <!-- 1-BET: Tadbir yaratish -->
+        <div class="page active" id="page1">
+            <div class="page-header">
+                <h2><i class="fas fa-plus-circle"></i> Tadbir yaratish</h2>
+                <p>Birgalikda taksi chaqirish uchun tadbir ma'lumotlarini kiriting</p>
+            </div>
+            <div class="card">
+                <form id="eventForm">
+                    <div class="form-group">
+                        <label><i class="fas fa-tag"></i> Tadbir nomi</label>
+                        <input type="text" id="eventName" placeholder="Masalan: 'Navro'z konserti 2026'" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt"></i> Manzil (boshlang'ich nuqta)</label>
+                        <input type="text" id="startLocation" placeholder="Chilonzor, Taras Shevchenko ko'chasi" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-flag-checkered"></i> Boradigan manzil</label>
+                        <input type="text" id="destination" placeholder="Tashkent City, Humo Arena" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar-alt"></i> Sana</label>
+                            <input type="date" id="eventDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-clock"></i> Vaqt</label>
+                            <input type="time" id="eventTime" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-users"></i> Qatnashchilar soni</label>
+                            <input type="number" id="participantsCount" min="2" max="20" value="4" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-taxi"></i> Taksi turi</label>
+                            <select id="taxiType">
+                                <option value="econom">Econom (Yandex Econom)</option>
+                                <option value="comfort">Comfort+ (Yandex Comfort)</option>
+                                <option value="business">Business (Business Class)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-arrow-right"></i> Tadbirni yaratish
+                    </button>
+                </form>
+            </div>
+            <div class="info-note">
+                <i class="fas fa-info-circle"></i> Taxminiy narx Yandex Taxi API asosida hisoblanadi
+            </div>
+        </div>
+
+        <!-- 2-BET: Tadbirga qo'shilish va hissa kiritish -->
+        <div class="page" id="page2">
+            <div class="page-header">
+                <h2><i class="fas fa-user-plus"></i> Tadbirga qo'shilish</h2>
+                <p>Ismingizni va qancha hissa qo'shmoqchi ekanligingizni kiriting</p>
+            </div>
+            <div class="event-summary-card" id="eventSummary">
+                <!-- Dinamik ravishda to'ldiriladi -->
+            </div>
+            <div class="card">
+                <form id="joinForm">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Ismingiz</label>
+                        <input type="text" id="participantName" placeholder="Ismingizni kiriting" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-money-bill-wave"></i> Hissa miqdori (so'm)</label>
+                        <input type="number" id="contributionAmount" placeholder="Masalan: 25000" required>
+                    </div>
+                    <div class="payment-methods">
+                        <label><i class="fas fa-credit-card"></i> To'lov usuli:</label>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="click" checked> <i class="fab fa-cc-visa"></i> Click
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="payme"> <i class="fas fa-mobile-alt"></i> Payme
+                            </label>
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="cash"> <i class="fas fa-money-bill"></i> Naqd
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">
+                        <i class="fas fa-hand-holding-usd"></i> Hissa qo'shish
+                    </button>
+                </form>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-outline" id="backToEventBtn">
+                    <i class="fas fa-arrow-left"></i> Orqaga
+                </button>
+                <button class="btn btn-primary" id="viewResultsBtn">
+                    Hisob-kitob <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 3-BET: Umumiy hisob-kitob -->
+        <div class="page" id="page3">
+            <div class="page-header">
+                <h2><i class="fas fa-chart-line"></i> Umumiy hisob-kitob</h2>
+                <p>Kim qancha to'lagan, kim to'lamagan</p>
+            </div>
+            <div class="event-summary-card" id="finalEventSummary"></div>
+            <div class="card">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-car"></i></div>
+                        <div class="stat-info">
+                            <h4>Umumiy taksi narxi</h4>
+                            <p id="totalTaxiPrice">0 so'm</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <h4>Qatnashchilar</h4>
+                            <p id="totalParticipants">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-coins"></i></div>
+                        <div class="stat-info">
+                            <h4>Yig'ilgan summa</h4>
+                            <p id="collectedAmount">0 so'm</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-chart-simple"></i></div>
+                        <div class="stat-info">
+                            <h4>Har bir kishi</h4>
+                            <p id="perPersonAmount">0 so'm</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3><i class="fas fa-list-ul"></i> Qatnashchilar ro'yxati</h3>
+                <div class="participants-table-container">
+                    <table class="participants-table" id="participantsTable">
+                        <thead>
+                            <tr><th>Ism</th><th>Hissa (so'm)</th><th>To'lov usuli</th><th>Holat</th></tr>
+                        </thead>
+                        <tbody id="participantsTableBody">
+                            <!-- Dinamik -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="savings-message" id="savingsMessage">
+                    <!-- Tejamkorlik haqida xabar -->
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn btn-outline" id="backToJoinBtn">
+                    <i class="fas fa-arrow-left"></i> Orqaga
+                </button>
+                <button class="btn btn-secondary" id="resetAllBtn">
+                    <i class="fas fa-plus-circle"></i> Yangi tadbir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
